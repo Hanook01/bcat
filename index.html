@@ -1,15 +1,25 @@
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(-45deg, #6a00f4, #ff6ec7, #ffcc00, #0fffc1);
-    background-size: 400% 400%;
-    animation: gradientMove 14s ease infinite;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animated Background</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+      background-size: 600% 600%;
+      animation: gradientMove 10s ease-in-out infinite;
+    }
 
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-</style>
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+</body>
+</html>
