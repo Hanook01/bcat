@@ -54,44 +54,37 @@
     </h1>
   </div>
 </div>
-<body><!-- Gözlük GIF + Küçültülmüş Video Alanı -->
-<section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
+<body>
+  <!-- Gözlük GIF + Video Alanı -->
+  <section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
 
-  <!-- Sol 2 GIF -->
-  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
-    <img src="gozluk.gif" alt="Top Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
-    <img src="gozluk.gif" alt="Bottom Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
-  </div>
+    <!-- Sol 2 GIF -->
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+      <img src="gozluk.gif" alt="Top Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+      <img src="gozluk.gif" alt="Bottom Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+    </div>
 
-  <!-- Orta Video Alanı (daha küçük) -->
-  <!-- Video Kutusu (taşma yok, tam oturur) -->
-<div style="width: 100%; height: 100%; border-radius: 20px; overflow: hidden; position: relative;">
-  <video id="bcatVideo" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
-    <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+    <!-- Orta Video Alanı (düzenlenmiş) -->
+    <div style="width: 100%; height: 100%; border-radius: 20px; overflow: hidden; position: relative;">
+      <video id="bcatVideo" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+        <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
 
-<!-- 3x Hız -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const vid = document.getElementById("bcatVideo");
-    vid.playbackRate = 3.0;
-  });
-</script>
+    <!-- Sağ 2 GIF -->
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+      <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+      <img src="gozluk.gif" alt="Bottom Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+    </div>
 
-  <video autoplay loop muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
-  <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</div>
- ]</p>
-  </div>
+  </section>
 
-  <!-- Sağ 2 GIF -->
-  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
-    <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
-    <img src="gozluk.gif" alt="Bottom Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
-  </div>
-
-</section>
+  <!-- 3x Hız JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const vid = document.getElementById("bcatVideo");
+      vid.playbackRate = 3.0;
+    });
+  </script>
+</body>
