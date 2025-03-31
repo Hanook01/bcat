@@ -47,52 +47,10 @@
     #nyanCat {
       width: 240px;
     }
-
-    /* SABİT LOGO BAR */
-    #iconBar {
-      position: fixed;
-      top: 20px;
-      right: 30px;
-      display: flex;
-      gap: 20px;
-      z-index: 9999;
-      background-color: rgba(255, 255, 255, 0.3);
-      padding: 10px 15px;
-      border-radius: 16px;
-      backdrop-filter: blur(5px);
-    }
-
-    #iconBar a img {
-      width: 42px;
-      height: 42px;
-      transition: transform 0.3s ease, filter 0.3s ease;
-      border-radius: 8px;
-    }
-
-    #iconBar a:hover img {
-      transform: scale(1.2);
-      filter: brightness(1.3);
-    }
   </style>
 </head>
 
 <body>
-  <!-- SABİT LOGO BAR -->
-  <div id="iconBar">
-    <a href="https://t.me/YOUR_TELEGRAM" target="_blank">
-      <img src="Telegrampng.png" alt="Telegram">
-    </a>
-    <a href="https://x.com/YOUR_X" target="_blank">
-      <img src="Xpng.png" alt="X">
-    </a>
-    <a href="https://dexscreener.com" target="_blank">
-      <img src="Dexpng.png" alt="Dexscreener">
-    </a>
-    <a href="https://coingecko.com" target="_blank">
-      <img src="geckopng3.webp" alt="CoinGecko">
-    </a>
-  </div>
-
   <!-- BAŞLIK -->
   <div style="display: flex; justify-content: center; align-items: center; padding-top: 40px;">
     <div style="background: rgba(0,0,0,0.3); border-radius: 30px; padding: 20px 40px; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
@@ -129,9 +87,55 @@
     </div>
   </section>
 
-  <!-- JS -->
+  <!-- SABİT LOGO BAR (JS ile) -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      const bar = document.createElement("div");
+      bar.id = "iconBarJS";
+      bar.style.position = "fixed";
+      bar.style.top = "20px";
+      bar.style.right = "30px";
+      bar.style.display = "flex";
+      bar.style.gap = "20px";
+      bar.style.zIndex = "9999";
+      bar.style.padding = "10px 15px";
+      bar.style.background = "rgba(255,255,255,0.3)";
+      bar.style.borderRadius = "16px";
+      bar.style.backdropFilter = "blur(5px)";
+
+      const logos = [
+        { href: "https://t.me/YOUR_TELEGRAM", src: "Telegrampng.png", alt: "Telegram" },
+        { href: "https://x.com/YOUR_X", src: "Xpng.png", alt: "X" },
+        { href: "https://dexscreener.com", src: "Dexpng.png", alt: "Dexscreener" },
+        { href: "https://coingecko.com", src: "geckopng3.webp", alt: "CoinGecko" }
+      ];
+
+      logos.forEach(logo => {
+        const a = document.createElement("a");
+        a.href = logo.href;
+        a.target = "_blank";
+        const img = document.createElement("img");
+        img.src = logo.src;
+        img.alt = logo.alt;
+        img.style.width = "42px";
+        img.style.height = "42px";
+        img.style.borderRadius = "8px";
+        img.style.transition = "transform 0.3s ease, filter 0.3s ease";
+        img.onmouseover = () => {
+          img.style.transform = "scale(1.2)";
+          img.style.filter = "brightness(1.3)";
+        };
+        img.onmouseout = () => {
+          img.style.transform = "scale(1)";
+          img.style.filter = "brightness(1)";
+        };
+        a.appendChild(img);
+        bar.appendChild(a);
+      });
+
+      document.body.appendChild(bar);
+
+      // Video hızı
       const vid = document.getElementById("bcatVideo");
       vid.playbackRate = 3.0;
     });
