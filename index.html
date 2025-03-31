@@ -39,19 +39,55 @@
 
     #nyanZone {
       position: absolute;
-      top: 170px; /* Video alanına göre ayarlanmış */
+      top: 170px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 99;
     }
 
     #nyanCat {
-      width: 240px; /* Daha büyük */
+      width: 240px;
+    }
+
+    #iconBar {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      display: flex;
+      gap: 15px;
+      z-index: 999;
+    }
+
+    #iconBar a img {
+      width: 36px;
+      height: 36px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    #iconBar a:hover img {
+      transform: scale(1.2);
+      filter: brightness(1.2);
     }
   </style>
 </head>
 
 <body>
+  <!-- İKONLAR -->
+  <div id="iconBar">
+    <a href="https://t.me/YOUR_TELEGRAM" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
+    </a>
+    <a href="https://x.com/YOUR_X" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/3670/3670151.png" alt="X">
+    </a>
+    <a href="https://dexscreener.com/" target="_blank">
+      <img src="https://cryptologos.cc/logos/uniswap-uni-logo.png" alt="Dexscreener">
+    </a>
+    <a href="https://coingecko.com/" target="_blank">
+      <img src="https://www.coingecko.com/assets/coingecko-logo-6b4dfec63db6dca76831b6b78f530dabd0b65d7feba09a053c87a7ebc9441b5c.png" alt="CoinGecko">
+    </a>
+  </div>
+
   <!-- ÜST BAŞLIK -->
   <div style="display: flex; justify-content: center; align-items: center; padding-top: 40px;">
     <div style="background: rgba(0,0,0,0.3); border-radius: 30px; padding: 20px 40px; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
@@ -66,7 +102,6 @@
 
   <!-- ANA GÖRSEL ALAN -->
   <section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
-    
     <!-- Sol 2 GIF -->
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
       <img src="gozluk.gif" alt="Top Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
