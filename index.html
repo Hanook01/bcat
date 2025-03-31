@@ -60,8 +60,17 @@
   </div>
 
   <!-- SADECE NYAN CAT SABİT -->
-  <div id="nyanZone">
-    <img id="nyanCat" src="giphy.gif" alt="Nyan Cat">
+  <div #nyanZone {
+  position: absolute;
+  top: 115px; /* Video kutusunun üst kısmına daha yakın */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+}
+
+#nyanCat {
+  width: 220px; /* Daha büyük! */
+}  
   </div>
 
   <!-- ANA GÖRSEL ALAN -->
