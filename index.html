@@ -39,7 +39,7 @@
 
     #nyanZone {
       position: relative;
-      height: 300px;
+      height: 200px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -48,29 +48,7 @@
     }
 
     #nyanCat {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
       width: 160px;
-      transition: transform 1.5s ease-in-out;
-    }
-
-    #dontPress {
-      padding: 14px 30px;
-      font-size: 22px;
-      background: linear-gradient(90deg, #ff4d4d, #ffb347, #47ffb3, #4d94ff, #b347ff);
-      background-size: 300% 300%;
-      animation: gradientMove 5s ease infinite;
-      color: white;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    }
-
-    #dontPress span {
-      animation: colorShift 2s infinite;
     }
 
     #videoSection {
@@ -101,22 +79,6 @@
       height: 100%;
       object-fit: cover;
     }
-
-    #gameContainer {
-      display: none;
-      width: 100%;
-      height: 500px;
-      background: url('https://i.imgur.com/lo8vZ2T.png');
-      background-size: cover;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #flappyCanvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
   </style>
 </head>
 <body>
@@ -124,7 +86,6 @@
 
   <div id="nyanZone">
     <img id="nyanCat" src="giphy.gif" alt="Nyan Cat">
-    <button id="dontPress"><span>DON'T PRESS 😼</span></button>
   </div>
 
   <section id="videoSection">
@@ -142,101 +103,5 @@
       <img src="gozluk.gif" alt="Cat 4">
     </div>
   </section>
-
-  <div id="gameContainer">
-    <canvas id="flappyCanvas" width="800" height="500"></canvas>
-  </div>
-
-  <audio id="bgMusic" preload="auto" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c5762a6ffb.mp3" loop></audio>
-
-  <script>
-    const nyan = document.getElementById("nyanCat");
-    const btn = document.getElementById("dontPress");
-    const gameContainer = document.getElementById("gameContainer");
-    const bgMusic = document.getElementById("bgMusic");
-    const canvas = document.getElementById("flappyCanvas");
-    const ctx = canvas.getContext("2d");
-    let isGameStarted = false;
-
-    btn.addEventListener("click", async () => {
-      try {
-        await bgMusic.play();
-      } catch (e) {
-        console.log("Audio play prevented by browser");
-      }
-
-      let position = 0;
-      const interval = setInterval(() => {
-        position += 5;
-        nyan.style.transform = `translate(${Math.sin(position/20)*50}px, ${position}px)`;
-        if (position >= 500) {
-          clearInterval(interval);
-          gameContainer.style.display = "block";
-          startGame();
-        }
-      }, 20);
-    });
-
-    function startGame() {
-      isGameStarted = true;
-      let nyanY = 150;
-      let gravity = 1.5;
-      let velocity = 0;
-      let score = 0;
-
-      let pipes = [{ x: canvas.width, y: Math.floor(Math.random() * canvas.height / 2) + 100 }];
-
-      document.addEventListener("keydown", () => {
-        velocity = -20;
-      });
-
-      function draw() {
-        if (!isGameStarted) return;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // draw nyan cat
-        ctx.fillStyle = "#ff69b4";
-        ctx.fillRect(50, nyanY, 40, 40);
-
-        velocity += gravity;
-        nyanY += velocity;
-
-        for (let i = 0; i < pipes.length; i++) {
-          let pipe = pipes[i];
-          pipe.x -= 4;
-
-          ctx.fillStyle = "green";
-          ctx.fillRect(pipe.x, 0, 50, pipe.y);
-          ctx.fillRect(pipe.x, pipe.y + 120, 50, canvas.height);
-
-          if (
-            50 < pipe.x + 50 &&
-            50 + 40 > pipe.x &&
-            (nyanY < pipe.y || nyanY + 40 > pipe.y + 120)
-          ) {
-            alert("Game Over! Score: " + score);
-            document.location.reload();
-          }
-
-          if (pipe.x === 50) {
-            score++;
-          }
-        }
-
-        if (pipes[pipes.length - 1].x < canvas.width - 200) {
-          pipes.push({ x: canvas.width, y: Math.floor(Math.random() * canvas.height / 2) + 100 });
-        }
-
-        ctx.fillStyle = "black";
-        ctx.font = "24px Abril Fatface";
-        ctx.fillText("Score: " + score, 20, 30);
-
-        requestAnimationFrame(draw);
-      }
-
-      draw();
-    }
-  </script>
 </body>
 </html>
