@@ -39,14 +39,14 @@
 
     #nyanZone {
       position: absolute;
-      top: 12%;
+      top: 170px; /* Video alanına göre ayarlanmış */
       left: 50%;
       transform: translateX(-50%);
-      z-index: 20;
+      z-index: 99;
     }
 
     #nyanCat {
-      width: 160px;
+      width: 240px; /* Daha büyük */
     }
   </style>
 </head>
@@ -59,18 +59,9 @@
     </div>
   </div>
 
-  <!-- SADECE NYAN CAT SABİT -->
-  <div #nyanZone {
-  position: absolute;
-  top: 115px; /* Video kutusunun üst kısmına daha yakın */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 99;
-}
-
-#nyanCat {
-  width: 220px; /* Daha büyük! */
-}  
+  <!-- SABİT NYAN CAT -->
+  <div id="nyanZone">
+    <img id="nyanCat" src="giphy.gif" alt="Nyan Cat">
   </div>
 
   <!-- ANA GÖRSEL ALAN -->
@@ -97,7 +88,7 @@
     </div>
   </section>
 
-  <!-- JS KODU: SADECE VİDEO HIZI -->
+  <!-- JS: Video hızını artır -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const vid = document.getElementById("bcatVideo");
