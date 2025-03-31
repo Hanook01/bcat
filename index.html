@@ -42,37 +42,11 @@
       top: 12%;
       left: 50%;
       transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
       z-index: 20;
     }
 
     #nyanCat {
       width: 160px;
-      pointer-events: auto;
-      transition: transform 1s ease-in-out;
-    }
-
-    #dontPress {
-      padding: 14px 30px;
-      font-size: 20px;
-      font-family: 'Abril Fatface', cursive;
-      background-color: black;
-      border: 2px solid white;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
-    }
-
-    #dontPress span {
-      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: bold;
-      text-shadow: 0 0 2px white;
     }
   </style>
 </head>
@@ -85,10 +59,9 @@
     </div>
   </div>
 
-  <!-- NYAN + BUTON -->
+  <!-- SADECE NYAN CAT SABİT -->
   <div id="nyanZone">
     <img id="nyanCat" src="giphy.gif" alt="Nyan Cat">
-    <button id="dontPress"><span>DON'T PRESS 😼</span></button>
   </div>
 
   <!-- ANA GÖRSEL ALAN -->
@@ -113,29 +86,14 @@
       <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
       <img src="gozluk.gif" alt="Bottom Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
-
   </section>
 
-  <!-- JS KODLARI -->
+  <!-- JS KODU: SADECE VİDEO HIZI -->
   <script>
-    // Video hızını 3x yap
     document.addEventListener("DOMContentLoaded", function () {
       const vid = document.getElementById("bcatVideo");
       vid.playbackRate = 3.0;
     });
-
-    // NYAN CAT animasyonu
-    const nyan = document.getElementById("nyanCat");
-    const btn = document.getElementById("dontPress");
-
-    btn.addEventListener("click", () => {
-      nyan.style.transform = "translateX(300px) scale(1.2)";
-      setTimeout(() => {
-        nyan.style.transform = "translateX(-50%)";
-      }, 1200);
-    });
   </script>
 </body>
 </html>
-
-
