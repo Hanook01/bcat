@@ -80,7 +80,17 @@
   pointer-events: auto;
   z-index: 10;
   transition: transform 1s ease-in-out;
-">
+"><script>
+  const nyan = document.getElementById("nyanCat");
+
+  nyan.addEventListener("click", () => {
+    nyan.style.transform = "translate(300px, -50%) scale(1.2)";
+    setTimeout(() => {
+      nyan.style.transform = "translate(-50%, -50%)";
+    }, 1200);
+  });
+</script>
+
     <!-- Sağ 2 GIF -->
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
       <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
