@@ -49,66 +49,70 @@
       width: 240px;
     }
 
+    /* İKON BAR */
     #iconBar {
       position: fixed;
       top: 20px;
       right: 30px;
       display: flex;
-      gap: 15px;
+      gap: 22px;
       z-index: 999;
     }
 
     #iconBar a img {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       transition: transform 0.3s ease, filter 0.3s ease;
+      border-radius: 8px;
     }
 
     #iconBar a:hover img {
       transform: scale(1.2);
-      filter: brightness(1.2);
+      filter: brightness(1.3);
     }
   </style>
 </head>
 
 <body>
-  <!-- İKONLAR -->
+
+  <!-- İKONLAR (SAĞ ÜST) -->
   <div id="iconBar">
     <a href="https://t.me/YOUR_TELEGRAM" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
     </a>
     <a href="https://x.com/YOUR_X" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/3670/3670151.png" alt="X">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/X_logo_2023.svg" alt="X">
     </a>
-    <a href="https://dexscreener.com/" target="_blank">
-      <img src="https://cryptologos.cc/logos/uniswap-uni-logo.png" alt="Dexscreener">
+    <a href="https://dexscreener.com" target="_blank">
+      <img src="https://raw.githubusercontent.com/dexscreener/dexscreener-assets/master/dexscreener-favicon.png" alt="Dexscreener">
     </a>
-    <a href="https://coingecko.com/" target="_blank">
+    <a href="https://coingecko.com" target="_blank">
       <img src="https://www.coingecko.com/assets/coingecko-logo-6b4dfec63db6dca76831b6b78f530dabd0b65d7feba09a053c87a7ebc9441b5c.png" alt="CoinGecko">
     </a>
   </div>
 
-  <!-- ÜST BAŞLIK -->
+  <!-- BAŞLIK -->
   <div style="display: flex; justify-content: center; align-items: center; padding-top: 40px;">
     <div style="background: rgba(0,0,0,0.3); border-radius: 30px; padding: 20px 40px; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
       <h1 id="topTitle">Welcome BirthdayCat</h1>
     </div>
   </div>
 
-  <!-- SABİT NYAN CAT -->
+  <!-- NYAN CAT -->
   <div id="nyanZone">
     <img id="nyanCat" src="giphy.gif" alt="Nyan Cat">
   </div>
 
-  <!-- ANA GÖRSEL ALAN -->
+  <!-- ANA BÖLÜM -->
   <section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
-    <!-- Sol 2 GIF -->
+    
+    <!-- Sol GIF -->
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
       <img src="gozluk.gif" alt="Top Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
       <img src="gozluk.gif" alt="Bottom Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
 
-    <!-- ORTA VİDEO ALANI -->
+    <!-- VİDEO -->
     <div style="width: 100%; height: 65%; border-radius: 20px; overflow: hidden; position: relative; align-self: center;">
       <video id="bcatVideo" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
         <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
@@ -116,19 +120,20 @@
       </video>
     </div>
 
-    <!-- Sağ 2 GIF -->
+    <!-- Sağ GIF -->
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
       <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
       <img src="gozluk.gif" alt="Bottom Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
   </section>
 
-  <!-- JS: Video hızını artır -->
+  <!-- JS -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const vid = document.getElementById("bcatVideo");
       vid.playbackRate = 3.0;
     });
   </script>
+
 </body>
 </html>
