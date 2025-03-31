@@ -177,3 +177,61 @@
 
   draw();
 </script>
+<script>
+  const canvas = document.getElementById("flappyCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const nyanImg = new Image();
+  nyanImg.src = "nyan-cat.gif"; // senin dosya adın neyse o olsun
+
+  let score = 0;
+  let isPlaying = true;
+
+  // Karakterin başlangıç konumu
+  let nyan = {
+    x: 50,
+    y: 150,
+    width: 50,
+    height: 40,
+    velocity: 0,
+    gravity: 0.6,
+    jumpStrength: -10
+  };
+
+  // Kontrol: Space + Touch
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
+  });
+
+  canvas.addEventListener("click", () => {
+    nyan.velocity = nyan.jumpStrength;
+  });
+
+  function draw() {
+    if (!isPlaying) return;
+
+    // Arka plan
+    ctx.fillStyle = "#c2e9fb";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Karakter fiziği
+    nyan.velocity += nyan.gravity;
+    nyan.y += nyan.velocity;
+
+    // Yere çarpma kontrolü
+    if (nyan.y + nyan.height >= canvas.height) {
+      isPlaying = false;
+      alert("Oyun bitti! Skor: " + score);
+    }
+
+    // Nyan Cat çiz
+    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+
+    // Skoru göster
+    document.getElementById("score").textContent = score;
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
