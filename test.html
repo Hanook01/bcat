@@ -3,49 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sabit Bar Test</title>
+  <title>Test Sabit Logo Bar</title>
 
   <style>
     body {
-      margin: 0;
       height: 200vh;
-      background: linear-gradient(to bottom, #ffdde1, #c1e1ff);
-      font-family: sans-serif;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+      background-size: 600% 600%;
+      animation: gradientMove 10s ease-in-out infinite;
+      margin: 0;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     #iconBar {
       position: fixed;
       top: 20px;
-      right: 20px;
+      right: 30px;
       display: flex;
       gap: 20px;
       z-index: 9999;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 15px;
     }
 
     #iconBar img {
-      width: 50px;
-      height: 50px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     #iconBar img:hover {
       transform: scale(1.2);
+      filter: brightness(1.3);
     }
   </style>
 </head>
 
 <body>
 
+  <!-- SABİT LOGO BAR -->
   <div id="iconBar">
-    <a href="#"><img src="Telegrampng.png" alt="Telegram"></a>
-    <a href="#"><img src="Xpng.png" alt="X"></a>
-    <a href="#"><img src="Dexpng.png" alt="Dexscreener"></a>
-    <a href="#"><img src="geckopng3.webp" alt="CoinGecko"></a>
+    <a href="https://t.me/YOUR_TELEGRAM" target="_blank">
+      <img src="Telegrampng.png" alt="Telegram">
+    </a>
+    <a href="https://x.com/YOUR_X" target="_blank">
+      <img src="Xpng.png" alt="X">
+    </a>
+    <a href="https://dexscreener.com" target="_blank">
+      <img src="Dexpng.png" alt="Dexscreener">
+    </a>
+    <a href="https://coingecko.com" target="_blank">
+      <img src="geckopng3.webp" alt="CoinGecko">
+    </a>
   </div>
-
-  <h1 style="padding: 100px;">Scroll et kralım, bu sefer SABİT! 😼</h1>
 
 </body>
 </html>
