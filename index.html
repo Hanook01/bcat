@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BirthdayCat</title>
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
+      height: 100vh;
       background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
       background-size: 600% 600%;
       animation: gradientMove 10s ease-in-out infinite;
-      font-family: 'Abril Fatface', cursive;
-      overflow-x: hidden;
     }
 
     @keyframes gradientMove {
@@ -22,86 +22,120 @@
     }
 
     @keyframes colorShift {
-      0% { color: red; }
-      20% { color: orange; }
-      40% { color: yellow; }
-      60% { color: green; }
-      80% { color: blue; }
-      100% { color: violet; }
+      0% { color: #ff9a9e; }
+      25% { color: #fad0c4; }
+      50% { color: #a1c4fd; }
+      75% { color: #c2e9fb; }
+      100% { color: #ff9a9e; }
     }
 
     #topTitle {
+      font-family: 'Abril Fatface', cursive;
       font-size: 3.5rem;
-      animation: colorShift 5s infinite;
+      margin: 0;
+      animation: colorShift 8s ease-in-out infinite;
       text-align: center;
-      margin: 40px 0 20px;
     }
 
     #nyanZone {
-      position: relative;
-      height: 200px;
+      position: absolute;
+      top: 12%;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 20px;
+      z-index: 20;
     }
 
     #nyanCat {
       width: 160px;
+      pointer-events: auto;
+      transition: transform 1s ease-in-out;
     }
 
-    #videoSection {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr 1fr;
-      align-items: start;
-      gap: 20px;
-      padding: 40px;
+    #dontPress {
+      padding: 14px 30px;
+      font-size: 20px;
+      font-family: 'Abril Fatface', cursive;
+      background-color: black;
+      border: 2px solid white;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
     }
 
-    #videoSection img {
-      width: 400px;
-      height: 300px;
-      border-radius: 20px;
-      object-fit: cover;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    }
-
-    #videoBox {
-      width: 100%;
-      height: 65vh;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    #videoBox video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    #dontPress span {
+      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      text-shadow: 0 0 2px white;
     }
   </style>
 </head>
-<body>
-  <h1 id="topTitle">Welcome BirthdayCat</h1>
 
-  <div id="nyanZone">
-    <img id="nyanCat" src="giphy.gif" alt="Nyan Cat">
+<body>
+  <!-- ÜST BAŞLIK -->
+  <div style="display: flex; justify-content: center; align-items: center; padding-top: 40px;">
+    <div style="background: rgba(0,0,0,0.3); border-radius: 30px; padding: 20px 40px; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
+      <h1 id="topTitle">Welcome BirthdayCat</h1>
+    </div>
   </div>
 
-  <section id="videoSection">
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-      <img src="gozluk.gif" alt="Cat 1">
-      <img src="gozluk.gif" alt="Cat 2">
+  <!-- NYAN + BUTON -->
+  <div id="nyanZone">
+    <img id="nyanCat" src="giphy.gif" alt="Nyan Cat">
+    <button id="dontPress"><span>DON'T PRESS 😼</span></button>
+  </div>
+
+  <!-- ANA GÖRSEL ALAN -->
+  <section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
+    
+    <!-- Sol 2 GIF -->
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+      <img src="gozluk.gif" alt="Top Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+      <img src="gozluk.gif" alt="Bottom Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
-    <div id="videoBox">
-      <video id="bcatVideo" autoplay loop muted playsinline>
+
+    <!-- ORTA VİDEO ALANI -->
+    <div style="width: 100%; height: 65%; border-radius: 20px; overflow: hidden; position: relative; align-self: center;">
+      <video id="bcatVideo" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
         <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
     </div>
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-      <img src="gozluk.gif" alt="Cat 3">
-      <img src="gozluk.gif" alt="Cat 4">
+
+    <!-- Sağ 2 GIF -->
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+      <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+      <img src="gozluk.gif" alt="Bottom Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
+
   </section>
+
+  <!-- JS KODLARI -->
+  <script>
+    // Video hızını 3x yap
+    document.addEventListener("DOMContentLoaded", function () {
+      const vid = document.getElementById("bcatVideo");
+      vid.playbackRate = 3.0;
+    });
+
+    // NYAN CAT animasyonu
+    const nyan = document.getElementById("nyanCat");
+    const btn = document.getElementById("dontPress");
+
+    btn.addEventListener("click", () => {
+      nyan.style.transform = "translateX(300px) scale(1.2)";
+      setTimeout(() => {
+        nyan.style.transform = "translateX(-50%)";
+      }, 1200);
+    });
+  </script>
 </body>
 </html>
+
+
