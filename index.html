@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BirthdayCat</title>
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      font-family: 'Abril Fatface', cursive;
       background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
       background-size: 600% 600%;
-      animation: gradientMove 10s ease infinite;
+      animation: gradientMove 10s ease-in-out infinite;
     }
 
     @keyframes gradientMove {
@@ -20,144 +20,218 @@
       100% { background-position: 0% 50%; }
     }
 
-    h1 {
-      text-align: center;
+    @keyframes colorShift {
+      0% { color: #ff9a9e; }
+      25% { color: #fad0c4; }
+      50% { color: #a1c4fd; }
+      75% { color: #c2e9fb; }
+      100% { color: #ff9a9e; }
+    }
+
+    #topTitle {
+      font-family: 'Abril Fatface', cursive;
       font-size: 3.5rem;
-      margin-top: 40px;
-      color: white;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+      margin: 0;
+      animation: colorShift 8s ease-in-out infinite;
+      text-align: center;
+    }
+
+    #nyanZone {
+      position: absolute;
+      top: 170px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99;
     }
 
     #nyanCat {
-      display: block;
-      margin: 30px auto 10px;
-      width: 220px;
-    }
-
-    .section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 40px 20px;
-      flex-direction: column;
-    }
-
-    .video-wrapper {
-      width: 90%;
-      max-width: 900px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-
-    .video-wrapper video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 20px;
-    }
-
-    #flappyCanvas {
-      border: 3px solid white;
-      border-radius: 12px;
-      background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
-      max-width: 95vw;
-    }
-
-    #scoreDisplay {
-      color: white;
-      font-size: 1.5rem;
-      margin-top: 15px;
-    }
-
-    h2 {
-      font-size: 2.2rem;
-      color: white;
-      margin-bottom: 15px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      width: 240px;
     }
   </style>
 </head>
+
 <body>
+  <!-- BAŞLIK -->
+  <div style="display: flex; justify-content: center; align-items: center; padding-top: 40px;">
+    <div style="background: rgba(0,0,0,0.3); border-radius: 30px; padding: 20px 40px; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
+      <h1 id="topTitle">Welcome BirthdayCat</h1>
+    </div>
+  </div>
 
-  <!-- Bölüm 1: Başlık ve Nyan Cat -->
-  <section class="section">
-    <h1>Welcome BirthdayCat</h1>
+  <!-- NYAN CAT -->
+  <div id="nyanZone">
     <img id="nyanCat" src="nyan-cat.gif" alt="Nyan Cat">
-  </section>
+  </div>
 
-  <!-- Bölüm 2: Video -->
-  <section class="section">
-    <div class="video-wrapper">
-      <video id="bcatVideo" autoplay loop muted playsinline>
+  <!-- GÖRSEL ALAN -->
+  <section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
+    
+    <!-- Sol 2 GIF -->
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+      <img src="gozluk.gif" alt="Top Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+      <img src="gozluk.gif" alt="Bottom Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+    </div>
+
+    <!-- VİDEO ORTA -->
+    <div style="width: 100%; height: 65%; border-radius: 20px; overflow: hidden; position: relative; align-self: center;">
+      <video id="bcatVideo" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
         <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
+        Your browser does not support the video tag.
       </video>
+    </div>
+
+    <!-- Sağ 2 GIF -->
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
+      <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
+      <img src="gozluk.gif" alt="Bottom Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
   </section>
 
-  <!-- Bölüm 3: Flappy BCAT Oyunu -->
-  <section class="section">
-    <h2>🎂 Flappy BCAT 🎮</h2>
-    <canvas id="flappyCanvas" width="360" height="480"></canvas>
-    <div id="scoreDisplay">Score: <span id="score">0</span></div>
-  </section>
-
+  <!-- SABİT LOGO BAR (JS ile) -->
   <script>
-    // Video hızını artır
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function () {
+      const bar = document.createElement("div");
+      bar.id = "iconBarJS";
+      bar.style.position = "absolute";
+      bar.style.top = "20px";
+      bar.style.right = "30px";
+      bar.style.display = "flex";
+      bar.style.gap = "20px";
+      bar.style.zIndex = "9999";
+      bar.style.padding = "10px 15px";
+      bar.style.background = "rgba(255,255,255,0.3)";
+      bar.style.borderRadius = "16px";
+      bar.style.backdropFilter = "blur(5px)";
+
+      const logos = [
+        { href: "https://t.me/YOUR_TELEGRAM", src: "Telegrampng.png", alt: "Telegram" },
+        { href: "https://x.com/YOUR_X", src: "Xpng.png", alt: "X" },
+        { href: "https://dexscreener.com", src: "Dexpng.png", alt: "Dexscreener" },
+        { href: "https://coingecko.com", src: "geckopng3.webp", alt: "CoinGecko" }
+      ];
+
+      logos.forEach(logo => {
+        const a = document.createElement("a");
+        a.href = logo.href;
+        a.target = "_blank";
+        const img = document.createElement("img");
+        img.src = logo.src;
+        img.alt = logo.alt;
+        img.style.width = "42px";
+        img.style.height = "42px";
+        img.style.borderRadius = "8px";
+        img.style.transition = "transform 0.3s ease, filter 0.3s ease";
+        img.onmouseover = () => {
+          img.style.transform = "scale(1.2)";
+          img.style.filter = "brightness(1.3)";
+        };
+        img.onmouseout = () => {
+          img.style.transform = "scale(1)";
+          img.style.filter = "brightness(1)";
+        };
+        a.appendChild(img);
+        bar.appendChild(a);
+      });
+
+      document.body.appendChild(bar);
+
+      // Video hızı
       const vid = document.getElementById("bcatVideo");
-      if (vid) vid.playbackRate = 3.0;
+      vid.playbackRate = 3.0;
     });
-
-    // Flappy Oyun Scripti
-    const canvas = document.getElementById("flappyCanvas");
-    const ctx = canvas.getContext("2d");
-
-    const nyanImg = new Image();
-    nyanImg.src = "nyan-cat.gif";
-
-    let score = 0;
-    let isPlaying = true;
-
-    let nyan = {
-      x: 50,
-      y: 150,
-      width: 50,
-      height: 40,
-      velocity: 0,
-      gravity: 0.6,
-      jumpStrength: -10
-    };
-
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
-    });
-
-    canvas.addEventListener("click", () => {
-      nyan.velocity = nyan.jumpStrength;
-    });
-
-    function draw() {
-      if (!isPlaying) return;
-
-      ctx.fillStyle = "#c2e9fb";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      nyan.velocity += nyan.gravity;
-      nyan.y += nyan.velocity;
-
-      if (nyan.y + nyan.height >= canvas.height) {
-        isPlaying = false;
-        alert("Game Over! Score: " + score);
-      }
-
-      ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-      document.getElementById("score").textContent = score;
-
-      requestAnimationFrame(draw);
-    }
-
-    draw();
   </script>
+
 </body>
 </html>
+<section>
+  <!-- OYUN ALANI (sayfa 2) -->
+<section id="flappySection" style="height: 100vh; background: #222; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
+  <h2 style="color: white; font-family: 'Abril Fatface', cursive; font-size: 2.5rem; margin-bottom: 20px;">🎂 Flappy BCAT 🎮</h2>
+
+  <canvas id="flappyCanvas" width="360" height="480" style="border: 3px solid white; border-radius: 10px; background: linear-gradient(to bottom, #a1c4fd, #c2e9fb); max-width: 90vw;"></canvas>
+
+  <div id="scoreDisplay" style="margin-top: 20px; color: white; font-size: 1.5rem; font-family: monospace;">
+    Score: <span id="score">0</span>
+  </div>
+</section>
+<script>
+  <script>
+  const canvas = document.getElementById("flappyCanvas");
+  const ctx = canvas.getContext("2d");
+
+  let score = 0;
+  let isPlaying = true;
+
+  function draw() {
+    if (!isPlaying) return;
+
+    // Temel Arka Plan (ileride değişecek)
+    ctx.fillStyle = "#c2e9fb";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Skoru güncelle
+    document.getElementById("score").textContent = score;
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
+<script>
+  const canvas = document.getElementById("flappyCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const nyanImg = new Image();
+  nyanImg.src = "nyan-cat.gif"; // senin dosya adın neyse o olsun
+
+  let score = 0;
+  let isPlaying = true;
+
+  // Karakterin başlangıç konumu
+  let nyan = {
+    x: 50,
+    y: 150,
+    width: 50,
+    height: 40,
+    velocity: 0,
+    gravity: 0.6,
+    jumpStrength: -10
+  };
+
+  // Kontrol: Space + Touch
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
+  });
+
+  canvas.addEventListener("click", () => {
+    nyan.velocity = nyan.jumpStrength;
+  });
+
+  function draw() {
+    if (!isPlaying) return;
+
+    // Arka plan
+    ctx.fillStyle = "#c2e9fb";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Karakter fiziği
+    nyan.velocity += nyan.gravity;
+    nyan.y += nyan.velocity;
+
+    // Yere çarpma kontrolü
+    if (nyan.y + nyan.height >= canvas.height) {
+      isPlaying = false;
+      alert("Oyun bitti! Skor: " + score);
+    }
+
+    // Nyan Cat çiz
+    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+
+    // Skoru göster
+    document.getElementById("score").textContent = score;
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
