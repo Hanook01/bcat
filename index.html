@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BirthdayCat</title>
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
-
   <style>
     html, body {
       margin: 0;
@@ -84,9 +83,9 @@
     }
   </style>
 </head>
-
 <body>
 
+<!-- Devamı geliyor... -->
   <!-- ÜSTTEKİ SABİT BAR -->
   <div id="iconBar">
     <a href="https://t.me/YOUR_TELEGRAM" target="_blank">
@@ -105,19 +104,17 @@
 
   <button id="soundToggle">🔇</button>
 
-  <!-- BAŞLIK -->
   <div style="display: flex; justify-content: center; align-items: center; padding-top: 40px;">
     <div style="background: rgba(0,0,0,0.3); border-radius: 30px; padding: 20px 40px; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
       <h1 id="topTitle">Welcome BirthdayCat</h1>
     </div>
   </div>
 
-  <!-- NYAN CAT -->
   <div id="nyanZone">
     <img id="nyanCat" src="nyan-cat.gif" alt="Nyan Cat">
   </div>
 
-  <!-- GÖRSEL VİDEO ALANI -->
+  <!-- GÖRSEL ALAN -->
   <section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
       <img src="gozluk.gif" alt="GIF1" style="width: 500px; height: 400px; border-radius: 20px;" />
@@ -127,7 +124,6 @@
     <div style="width: 100%; height: 65%; border-radius: 20px; overflow: hidden; position: relative;">
       <video id="bcatVideo" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
         <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
-        Your browser does not support the video tag.
       </video>
     </div>
 
@@ -142,227 +138,91 @@
     <h2 style="color: white; font-size: 2.5rem; margin-bottom: 20px;">🎂 Flappy BCAT 🎮</h2>
 
     <canvas id="flappyCanvas" width="660" height="480" style="border: 3px solid white; border-radius: 10px; max-width: 90vw;"></canvas>
-<div id="buttonArea" style="margin-top: 20px;">
-  <button id="startBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #ff9a9e; color: white; cursor: pointer;">Start</button>
-  <button id="restartBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #c2e9fb; color: black; cursor: pointer; display: none;">Restart</button>
-</div>
-<div id="scoreDisplay" style="margin-top: 20px; color: red; font-size: 1.5rem; font-family: monospace;">
-  Score: <span id="score">0</span>
-</div>
-    
+
+    <div id="buttonArea" style="margin-top: 20px;">
+      <button id="startBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #ff9a9e; color: white; cursor: pointer;">Start</button>
+      <button id="restartBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #c2e9fb; color: black; cursor: pointer; display: none;">Restart</button>
+    </div>
+
+    <div id="scoreDisplay" style="margin-top: 20px; color: red; font-size: 1.5rem; font-family: monospace;">
+      Score: <span id="score">0</span>
     </div>
   </section>
 
   <audio id="jumpSound" src="jump.mp3"></audio>
   <audio id="bgMusic" src="bg-music.mp3" loop></audio>
-
-  <!-- OYUN JS -->
-  <script>
-    const canvas = document.getElementById("flappyCanvas");
-    const ctx = canvas.getContext("2d");
-
-    const nyanImg = new Image();
-    nyanImg.src = "nyan-cat.gif";
-
-    const bgImage = new Image();
-    bgImage.src = "u1ZpVC.png"; // senin gönderdiğin 448x256 görsel
-
-    let bgX = 0;
-    const scrollSpeed = 2;
-
-    const nyan = {
-      x: 50,
-      y: 150,
-      width: 90,
-      height: 100,
-      velocity: 0,
-      gravity: 10,
-      jumpStrength: -10
-    };
-
-    let score = 0;
-    let isPlaying = true;
-
-    const jumpSound = document.getElementById("jumpSound");
-    const bgMusic = document.getElementById("bgMusic");
-    const soundBtn = document.getElementById("soundToggle");
-    let soundOn = false;
-
-    soundBtn.onclick = () => {
-      soundOn = !soundOn;
-      if (soundOn) {
-        bgMusic.play();
-        soundBtn.textContent = "🔊";
-      } else {
-        bgMusic.pause();
-        soundBtn.textContent = "🔇";
-      }
-    };
-
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space") jump();
-    });
-
-    canvas.addEventListener("click", jump);
-
-    function jump() {
-      nyan.velocity = nyan.jumpStrength;
-      if (soundOn) jumpSound.play();
-    }
-
-    function draw() {
-      if (!isPlaying) return;
-
-      // Arka plan
-      bgX -= scrollSpeed;
-      if (bgX <= -canvas.width) bgX = 0;
-      ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
-      ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
-
-      // Fizik
-      nyan.velocity += nyan.gravity;
-      nyan.y += nyan.velocity;
-
-      if (nyan.y + nyan.height >= canvas.height) {
-        isPlaying = false;
-        alert("Oyun bitti! Skor: " + score);
-        return;
-      }
-
-      ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-      document.getElementById("score").textContent = score;
-      score++;
-
-      requestAnimationFrame(draw);
-    }
-
-    bgImage.onload = () => draw();
-  </script>
-<!-- Start/Restart Butonları -->
-<div id="buttonArea" style="margin-top: 20px;">
-  <button id="startBtn">Start</button>
-  <button id="restartBtn" style="display:none;">Restart</button>
-</div>
-
-<!-- Oyunun JavaScript'i -->
 <script>
   const canvas = document.getElementById("flappyCanvas");
   const ctx = canvas.getContext("2d");
 
-  const bgImage = new Image();
-  bgImage.src = "u1ZpVC.png";
-
   const nyanImg = new Image();
   nyanImg.src = "nyan-cat.gif";
-
-  let bgX = 0;
-  const scrollSpeed = 2;
-
-  let score = 0;
-  let isPlaying = false;
-  let gameStarted = false;
-
-  const nyan = {
-    x: 50,
-    y: 150,
-    width: 90,
-    height: 100,
-    velocity: 0,
-    gravity: 0.6,
-    jumpStrength: -10
-  };
-
-  document.getElementById("startBtn").addEventListener("click", startGame);
-  document.getElementById("restartBtn").addEventListener("click", restartGame);
-
-  function startGame() {
-    gameStarted = true;
-    isPlaying = true;
-    score = 0;
-    nyan.y = 150;
-    nyan.velocity = 0;
-    bgX = 0;
-
-    document.getElementById("startBtn").style.display = "none";
-    document.getElementById("restartBtn").style.display = "none";
-
-    draw();
-  }
-
-  function restartGame() {
-    startGame();
-  }
-
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
-  });
-
-  canvas.addEventListener("click", () => {
-    nyan.velocity = nyan.jumpStrength;
-  });
-
-  function draw() {
-    if (!isPlaying) return;
-
-    bgX -= scrollSpeed;
-    if (bgX <= -canvas.width) bgX = 0;
-
-    ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
-    ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
-
-    nyan.velocity += nyan.gravity;
-    nyan.y += nyan.velocity;
-
-    if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
-      isPlaying = false;
-      document.getElementById("restartBtn").style.display = "inline-block";
-      return;
-    }
-
-    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-    document.getElementById("score").textContent = score;
-
-    requestAnimationFrame(draw);
-  }
-</script>
-<script>
-  const canvas = document.getElementById("flappyCanvas");
-  const ctx = canvas.getContext("2d");
 
   const bgImage = new Image();
   bgImage.src = "u1ZpVC.png";
 
-  const nyanImg = new Image();
-  nyanImg.src = "nyan-cat.gif";
+  const pipeImagesTop = ["pipe1.png", "pipe2.png"];
+  const pipeImagesBottom = ["pipe3.png", "pipe4.png"];
 
-  let bgX = 0;
-  const scrollSpeed = 2;
+  const jumpSound = document.getElementById("jumpSound");
+  const bgMusic = document.getElementById("bgMusic");
+  const soundBtn = document.getElementById("soundToggle");
 
-  let score = 0;
+  let soundOn = false;
   let isPlaying = false;
-
-  const nyan = {
-    x: 50,
-    y: 150,
-    width: 50,
-    height: 40,
-    velocity: 0,
-    gravity: 0.6,
-    jumpStrength: -10
-  };
-
   let pipes = [];
+  let score = 0;
+  let bgX = 0;
+  const scrollSpeed = 2;
   const pipeWidth = 60;
   const pipeGap = 140;
-  const pipeSpeed = 2;
-  const pipeInterval = 1500;
+
+  const nyan = {
+    x: 50,
+    y: 150,
+    width: 80,
+    height: 60,
+    velocity: 0,
+    gravity: 0.6,
+    jumpStrength: -10
+  };
+
+  function jump() {
+    nyan.velocity = nyan.jumpStrength;
+    if (soundOn) jumpSound.play();
+  }
+
+  document.addEventListener("keydown", e => {
+    if (e.code === "Space") jump();
+  });
+
+  canvas.addEventListener("click", jump);
+
+  soundBtn.onclick = () => {
+    soundOn = !soundOn;
+    if (soundOn) {
+      bgMusic.play();
+      soundBtn.textContent = "🔊";
+    } else {
+      bgMusic.pause();
+      soundBtn.textContent = "🔇";
+    }
+  };
 
   function spawnPipe() {
     const topHeight = Math.floor(Math.random() * 200) + 50;
+    const topImg = new Image();
+    topImg.src = pipeImagesTop[Math.floor(Math.random() * pipeImagesTop.length)];
+
+    const bottomImg = new Image();
+    bottomImg.src = pipeImagesBottom[Math.floor(Math.random() * pipeImagesBottom.length)];
+
     pipes.push({
       x: canvas.width,
       top: topHeight,
-      bottom: topHeight + pipeGap
+      bottom: topHeight + pipeGap,
+      topImg,
+      bottomImg
     });
   }
 
@@ -374,186 +234,40 @@
     bgX = 0;
   }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
-  });
-
-  canvas.addEventListener("click", () => {
-    nyan.velocity = nyan.jumpStrength;
-  });
-
-  function checkCollision(pipe) {
-    const inPipeX = nyan.x + nyan.width > pipe.x && nyan.x < pipe.x + pipeWidth;
-    const hitTop = nyan.y < pipe.top;
-    const hitBottom = nyan.y + nyan.height > pipe.bottom;
-    return inPipeX && (hitTop || hitBottom);
-  }
-
   function draw() {
     if (!isPlaying) return;
 
     bgX -= scrollSpeed;
     if (bgX <= -canvas.width) bgX = 0;
-
     ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
 
-    nyan.velocity += nyan.gravity;
-    nyan.y += nyan.velocity;
+    pipes.forEach(pipe => {
+      pipe.x -= scrollSpeed;
+      ctx.drawImage(pipe.topImg, pipe.x, 0, pipeWidth, pipe.top);
+      ctx.drawImage(pipe.bottomImg, pipe.x, pipe.bottom, pipeWidth, canvas.height - pipe.bottom);
 
-    if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
-      isPlaying = false;
-      document.getElementById("restartBtn").style.display = "inline-block";
-      return;
-    }
-
-    for (let i = pipes.length - 1; i >= 0; i--) {
-      const pipe = pipes[i];
-      pipe.x -= pipeSpeed;
-
-      // Engeller
-      ctx.fillStyle = "#ffcc00";
-      ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
-      ctx.fillRect(pipe.x, pipe.bottom, pipeWidth, canvas.height - pipe.bottom);
-
-      // Çarpışma
-      if (checkCollision(pipe)) {
+      if (
+        nyan.x < pipe.x + pipeWidth &&
+        nyan.x + nyan.width > pipe.x &&
+        (nyan.y < pipe.top || nyan.y + nyan.height > pipe.bottom)
+      ) {
         isPlaying = false;
         document.getElementById("restartBtn").style.display = "inline-block";
-        return;
       }
 
-      // Skor
       if (pipe.x + pipeWidth === nyan.x) score++;
-    }
-
-    pipes = pipes.filter(pipe => pipe.x + pipeWidth > 0);
-
-    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-    document.getElementById("score").textContent = score;
-
-    requestAnimationFrame(draw);
-  }
-
-  document.getElementById("startBtn").addEventListener("click", () => {
-    isPlaying = true;
-    resetGame();
-    document.getElementById("startBtn").style.display = "none";
-    document.getElementById("restartBtn").style.display = "none";
-    draw();
-    setInterval(() => {
-      if (isPlaying) spawnPipe();
-    }, pipeInterval);
-  });
-
-  document.getElementById("restartBtn").addEventListener("click", () => {
-    isPlaying = true;
-    resetGame();
-    document.getElementById("restartBtn").style.display = "none";
-    draw();
-  });
-</script>
-<script>
-window.onload = function () {
-  const canvas = document.getElementById("flappyCanvas");
-  const ctx = canvas.getContext("2d");
-
-  const bgImage = new Image();
-  bgImage.src = "u1ZpVC.png";
-
-  const nyanImg = new Image();
-  nyanImg.src = "nyan-cat.gif";
-
-  let bgX = 0;
-  const scrollSpeed = 2;
-
-  let score = 0;
-  let isPlaying = false;
-
-  const nyan = {
-    x: 50,
-    y: 150,
-    width: 50,
-    height: 40,
-    velocity: 0,
-    gravity: 0.6,
-    jumpStrength: -10
-  };
-
-  let pipes = [];
-  const pipeWidth = 60;
-  const pipeGap = 140;
-  const pipeSpeed = 2;
-  const pipeInterval = 1500;
-
-  function spawnPipe() {
-    const topHeight = Math.floor(Math.random() * 200) + 50;
-    pipes.push({
-      x: canvas.width,
-      top: topHeight,
-      bottom: topHeight + pipeGap
     });
-  }
 
-  function resetGame() {
-    nyan.y = 150;
-    nyan.velocity = 0;
-    pipes = [];
-    score = 0;
-    bgX = 0;
-  }
-
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
-  });
-
-  canvas.addEventListener("click", () => {
-    nyan.velocity = nyan.jumpStrength;
-  });
-
-  function checkCollision(pipe) {
-    const inPipeX = nyan.x + nyan.width > pipe.x && nyan.x < pipe.x + pipeWidth;
-    const hitTop = nyan.y < pipe.top;
-    const hitBottom = nyan.y + nyan.height > pipe.bottom;
-    return inPipeX && (hitTop || hitBottom);
-  }
-
-  function draw() {
-    if (!isPlaying) return;
-
-    bgX -= scrollSpeed;
-    if (bgX <= -canvas.width) bgX = 0;
-
-    ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
-    ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+    pipes = pipes.filter(p => p.x + pipeWidth > 0);
 
     nyan.velocity += nyan.gravity;
     nyan.y += nyan.velocity;
 
-    if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
+    if (nyan.y + nyan.height >= canvas.height || nyan.y < 0) {
       isPlaying = false;
       document.getElementById("restartBtn").style.display = "inline-block";
-      return;
     }
-
-    for (let i = pipes.length - 1; i >= 0; i--) {
-      const pipe = pipes[i];
-      pipe.x -= pipeSpeed;
-
-      ctx.fillStyle = "#ffcc00";
-      ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
-      ctx.fillRect(pipe.x, pipe.bottom, pipeWidth, canvas.height - pipe.bottom);
-
-      if (checkCollision(pipe)) {
-        isPlaying = false;
-        document.getElementById("restartBtn").style.display = "inline-block";
-        return;
-      }
-
-      if (pipe.x + pipeWidth === nyan.x) score++;
-    }
-
-    pipes = pipes.filter(pipe => pipe.x + pipeWidth > 0);
 
     ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
     document.getElementById("score").textContent = score;
@@ -562,154 +276,23 @@ window.onload = function () {
   }
 
   document.getElementById("startBtn").addEventListener("click", () => {
-    isPlaying = true;
     resetGame();
+    isPlaying = true;
+    draw();
     document.getElementById("startBtn").style.display = "none";
     document.getElementById("restartBtn").style.display = "none";
-    draw();
+    spawnPipe();
     setInterval(() => {
       if (isPlaying) spawnPipe();
-    }, pipeInterval);
+    }, 1800);
   });
 
   document.getElementById("restartBtn").addEventListener("click", () => {
-    isPlaying = true;
     resetGame();
-    document.getElementById("restartBtn").style.display = "none";
+    isPlaying = true;
     draw();
+    document.getElementById("restartBtn").style.display = "none";
   });
-}
 </script>
-<script>
-const canvas = document.getElementById("flappyCanvas");
-const ctx = canvas.getContext("2d");
-
-const bgImage = new Image();
-bgImage.src = "u1ZpVC.png"; // Arka plan
-
-const nyanImg = new Image();
-nyanImg.src = "nyan-cat.gif"; // Karakter
-
-// Boru görselleri
-const pipeImagesTop = ["pipe1.png", "pipe2.png"];
-const pipeImagesBottom = ["pipe3.png", "pipe4.png"];
-
-let pipes = [];
-
-let bgX = 0;
-const scrollSpeed = 2;
-
-let score = 0;
-let isPlaying = false;
-
-const nyan = {
-  x: 50,
-  y: 150,
-  width: 50,
-  height: 40,
-  velocity: 0,
-  gravity: 0.6,
-  jumpStrength: -10
-};
-
-// Oyun başlat
-function startGame() {
-  score = 0;
-  nyan.y = 150;
-  nyan.velocity = 0;
-  pipes = [];
-  isPlaying = true;
-  generatePipe();
-  draw();
-}
-
-document.addEventListener("keydown", (e) => {
-  if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
-});
-
-canvas.addEventListener("click", () => {
-  nyan.velocity = nyan.jumpStrength;
-});
-
-// Rastgele boru oluştur
-function generatePipe() {
-  const gap = 130;
-  const minHeight = 60;
-  const maxHeight = canvas.height - gap - 60;
-  const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
-
-  const topPipeImg = new Image();
-  topPipeImg.src = pipeImagesTop[Math.floor(Math.random() * pipeImagesTop.length)];
-
-  const bottomPipeImg = new Image();
-  bottomPipeImg.src = pipeImagesBottom[Math.floor(Math.random() * pipeImagesBottom.length)];
-
-  pipes.push({
-    x: canvas.width,
-    topHeight,
-    bottomY: topHeight + gap,
-    width: 60,
-    topImg: topPipeImg,
-    bottomImg: bottomPipeImg
-  });
-
-  setTimeout(generatePipe, 1800);
-}
-
-// Oyun döngüsü
-function draw() {
-  if (!isPlaying) return;
-
-  bgX -= scrollSpeed;
-  if (bgX <= -canvas.width) bgX = 0;
-
-  ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
-  ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
-
-  // Engeller
-  pipes.forEach((pipe, index) => {
-    pipe.x -= scrollSpeed;
-
-    // Boruların çizimi
-    ctx.drawImage(pipe.topImg, pipe.x, 0, pipe.width, pipe.topHeight);
-    ctx.drawImage(pipe.bottomImg, pipe.x, pipe.bottomY, pipe.width, canvas.height - pipe.bottomY);
-
-    // Çarpma kontrolü
-    if (
-      nyan.x < pipe.x + pipe.width &&
-      nyan.x + nyan.width > pipe.x &&
-      (
-        nyan.y < pipe.topHeight ||
-        nyan.y + nyan.height > pipe.bottomY
-      )
-    ) {
-      isPlaying = false;
-      alert("💥 Çarptın! Skor: " + score);
-    }
-
-    // Skor
-    if (pipe.x + pipe.width === nyan.x) {
-      score++;
-    }
-  });
-
-  // Karakter fiziği
-  nyan.velocity += nyan.gravity;
-  nyan.y += nyan.velocity;
-
-  if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
-    isPlaying = false;
-    alert("💥 Oyun Bitti! Skor: " + score);
-  }
-
-  ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-  document.getElementById("score").textContent = score;
-
-  requestAnimationFrame(draw);
-}
-
-// START butonu çağırır
-window.onload = () => {
-  startGame(); // Otomatik başlatma
-};
-</script>
+</body>
+</html>
