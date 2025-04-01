@@ -146,6 +146,8 @@
   <button id="startBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #ff9a9e; color: white; cursor: pointer;">Start</button>
   <button id="restartBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #c2e9fb; color: black; cursor: pointer; display: none;">Restart</button>
 </div>
+<button id="startBtn" style="margin-top: 15px; padding: 10px 20px; font-size: 1.2rem;">Start</button>
+<button id="restartBtn" style="display:none; margin-top: 15px; padding: 10px 20px; font-size: 1.2rem;">Restart</button>
 
     <div style="margin-top: 20px; color: white; font-size: 1.5rem;">
       Score: <span id="score">0</span>
@@ -323,4 +325,132 @@
 
     requestAnimationFrame(draw);
   }
+</script>
+<script>
+  const canvas = document.getElementById("flappyCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const bgImage = new Image();
+  bgImage.src = "u1ZpVC.png";
+
+  const nyanImg = new Image();
+  nyanImg.src = "nyan-cat.gif";
+
+  let bgX = 0;
+  const scrollSpeed = 2;
+
+  let score = 0;
+  let isPlaying = false;
+
+  const nyan = {
+    x: 50,
+    y: 150,
+    width: 50,
+    height: 40,
+    velocity: 0,
+    gravity: 0.6,
+    jumpStrength: -10
+  };
+
+  let pipes = [];
+  const pipeWidth = 60;
+  const pipeGap = 140;
+  const pipeSpeed = 2;
+  const pipeInterval = 1500;
+
+  function spawnPipe() {
+    const topHeight = Math.floor(Math.random() * 200) + 50;
+    pipes.push({
+      x: canvas.width,
+      top: topHeight,
+      bottom: topHeight + pipeGap
+    });
+  }
+
+  function resetGame() {
+    nyan.y = 150;
+    nyan.velocity = 0;
+    pipes = [];
+    score = 0;
+    bgX = 0;
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
+  });
+
+  canvas.addEventListener("click", () => {
+    nyan.velocity = nyan.jumpStrength;
+  });
+
+  function checkCollision(pipe) {
+    const inPipeX = nyan.x + nyan.width > pipe.x && nyan.x < pipe.x + pipeWidth;
+    const hitTop = nyan.y < pipe.top;
+    const hitBottom = nyan.y + nyan.height > pipe.bottom;
+    return inPipeX && (hitTop || hitBottom);
+  }
+
+  function draw() {
+    if (!isPlaying) return;
+
+    bgX -= scrollSpeed;
+    if (bgX <= -canvas.width) bgX = 0;
+
+    ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
+    ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+
+    nyan.velocity += nyan.gravity;
+    nyan.y += nyan.velocity;
+
+    if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
+      isPlaying = false;
+      document.getElementById("restartBtn").style.display = "inline-block";
+      return;
+    }
+
+    for (let i = pipes.length - 1; i >= 0; i--) {
+      const pipe = pipes[i];
+      pipe.x -= pipeSpeed;
+
+      // Engeller
+      ctx.fillStyle = "#ffcc00";
+      ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
+      ctx.fillRect(pipe.x, pipe.bottom, pipeWidth, canvas.height - pipe.bottom);
+
+      // Çarpışma
+      if (checkCollision(pipe)) {
+        isPlaying = false;
+        document.getElementById("restartBtn").style.display = "inline-block";
+        return;
+      }
+
+      // Skor
+      if (pipe.x + pipeWidth === nyan.x) score++;
+    }
+
+    pipes = pipes.filter(pipe => pipe.x + pipeWidth > 0);
+
+    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+    document.getElementById("score").textContent = score;
+
+    requestAnimationFrame(draw);
+  }
+
+  document.getElementById("startBtn").addEventListener("click", () => {
+    isPlaying = true;
+    resetGame();
+    document.getElementById("startBtn").style.display = "none";
+    document.getElementById("restartBtn").style.display = "none";
+    draw();
+    setInterval(() => {
+      if (isPlaying) spawnPipe();
+    }, pipeInterval);
+  });
+
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    isPlaying = true;
+    resetGame();
+    document.getElementById("restartBtn").style.display = "none";
+    draw();
+  });
 </script>
