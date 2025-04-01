@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BirthdayCat</title>
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
-
   <style>
-        html, body {
+    html, body {
       margin: 0;
       padding: 0;
       min-height: 100%;
@@ -16,15 +15,11 @@
       background-size: 600% 600%;
       animation: gradientMove 10s ease-in-out infinite;
     }
-
-
-
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
     @keyframes colorShift {
       0% { color: #ff9a9e; }
       25% { color: #fad0c4; }
@@ -32,7 +27,6 @@
       75% { color: #c2e9fb; }
       100% { color: #ff9a9e; }
     }
-
     #topTitle {
       font-family: 'Abril Fatface', cursive;
       font-size: 3.5rem;
@@ -40,7 +34,6 @@
       animation: colorShift 8s ease-in-out infinite;
       text-align: center;
     }
-
     #nyanZone {
       position: absolute;
       top: 170px;
@@ -48,7 +41,6 @@
       transform: translateX(-50%);
       z-index: 99;
     }
-
     #nyanCat {
       width: 240px;
     }
@@ -70,217 +62,91 @@
 
   <!-- GÖRSEL ALAN -->
   <section style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; height: 100vh; gap: 20px; padding: 40px; box-sizing: border-box;">
-    
-    <!-- Sol 2 GIF -->
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
       <img src="gozluk.gif" alt="Top Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
       <img src="gozluk.gif" alt="Bottom Left Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
-
-    <!-- VİDEO ORTA -->
     <div style="width: 100%; height: 65%; border-radius: 20px; overflow: hidden; position: relative; align-self: center;">
       <video id="bcatVideo" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
         <source src="bcat-video-fast-optimized.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
-
-    <!-- Sağ 2 GIF -->
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
       <img src="gozluk.gif" alt="Top Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
       <img src="gozluk.gif" alt="Bottom Right Cat" style="width: 500px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.4);" />
     </div>
   </section>
 
-  <!-- SABİT LOGO BAR (JS ile) -->
+  <!-- OYUN ALANI -->
+  <section id="flappySection" style="height: 100vh; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
+    <h2 style="color: white; font-family: 'Abril Fatface', cursive; font-size: 2.5rem; margin-bottom: 20px;">🎂 Flappy BCAT 🎮</h2>
+    <canvas id="flappyCanvas" width="660" height="480" style="border: 3px solid white; border-radius: 10px; max-width: 90vw;"></canvas>
+    <div id="scoreDisplay" style="margin-top: 20px; color: white; font-size: 1.5rem; font-family: monospace;">
+      Score: <span id="score">0</span>
+    </div>
+  </section>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const bar = document.createElement("div");
-      bar.id = "iconBarJS";
-      bar.style.position = "absolute";
-      bar.style.top = "20px";
-      bar.style.right = "30px";
-      bar.style.display = "flex";
-      bar.style.gap = "20px";
-      bar.style.zIndex = "9999";
-      bar.style.padding = "10px 15px";
-      bar.style.background = "rgba(255,255,255,0.3)";
-      bar.style.borderRadius = "16px";
-      bar.style.backdropFilter = "blur(5px)";
+    const canvas = document.getElementById("flappyCanvas");
+    const ctx = canvas.getContext("2d");
 
-      const logos = [
-        { href: "https://t.me/YOUR_TELEGRAM", src: "Telegrampng.png", alt: "Telegram" },
-        { href: "https://x.com/YOUR_X", src: "Xpng.png", alt: "X" },
-        { href: "https://dexscreener.com", src: "Dexpng.png", alt: "Dexscreener" },
-        { href: "https://coingecko.com", src: "geckopng3.webp", alt: "CoinGecko" }
-      ];
+    const bgImage = new Image();
+    bgImage.src = "u1ZpVC.png";
 
-      logos.forEach(logo => {
-        const a = document.createElement("a");
-        a.href = logo.href;
-        a.target = "_blank";
-        const img = document.createElement("img");
-        img.src = logo.src;
-        img.alt = logo.alt;
-        img.style.width = "42px";
-        img.style.height = "42px";
-        img.style.borderRadius = "8px";
-        img.style.transition = "transform 0.3s ease, filter 0.3s ease";
-        img.onmouseover = () => {
-          img.style.transform = "scale(1.2)";
-          img.style.filter = "brightness(1.3)";
-        };
-        img.onmouseout = () => {
-          img.style.transform = "scale(1)";
-          img.style.filter = "brightness(1)";
-        };
-        a.appendChild(img);
-        bar.appendChild(a);
-      });
+    const nyanImg = new Image();
+    nyanImg.src = "nyan-cat.gif";
 
-      document.body.appendChild(bar);
+    let bgX = 0;
+    const scrollSpeed = 2;
 
-      // Video hızı
-      const vid = document.getElementById("bcatVideo");
-      vid.playbackRate = 3.0;
+    let score = 0;
+    let isPlaying = true;
+
+    const nyan = {
+      x: 50,
+      y: 150,
+      width: 50,
+      height: 40,
+      velocity: 0,
+      gravity: 0.6,
+      jumpStrength: -10
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
     });
-  </script>
-<script>
-  const canvas = document.getElementById("flappyCanvas");
-  const ctx = canvas.getContext("2d");
 
-  // Arka plan görseli
-  const bgImage = new Image();
-  bgImage.src = "u1ZpVC.png"; // 
+    canvas.addEventListener("click", () => {
+      nyan.velocity = nyan.jumpStrength;
+    });
 
-  const nyanImg = new Image();
-  nyanImg.src = "nyan-cat.gif";
+    function draw() {
+      if (!isPlaying) return;
 
-  let bgX = 0;
-  const scrollSpeed = 2;
+      bgX -= scrollSpeed;
+      if (bgX <= -canvas.width) bgX = 0;
 
-  let score = 0;
-  let isPlaying = true;
+      ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
+      ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
 
-  let nyan = {
-    x: 50,
-    y: 150,
-    width: 50,
-    height: 40,
-    velocity: 0,
-    gravity: 0.6,
-    jumpStrength: -10
-  };
+      nyan.velocity += nyan.gravity;
+      nyan.y += nyan.velocity;
 
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
-  });
+      if (nyan.y + nyan.height >= canvas.height) {
+        isPlaying = false;
+        alert("Oyun bitti! Skor: " + score);
+      }
 
-  canvas.addEventListener("click", () => {
-    nyan.velocity = nyan.jumpStrength;
-  });
+      ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+      document.getElementById("score").textContent = score;
 
-  function draw() {
-    if (!isPlaying) return;
-
-    // Scroll arka plan
-    bgX -= scrollSpeed;
-    if (bgX <= -canvas.width) bgX = 0;
-    ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
-    ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
-
-    // Nyan Cat fiziği
-    nyan.velocity += nyan.gravity;
-    nyan.y += nyan.velocity;
-
-    if (nyan.y + nyan.height >= canvas.height) {
-      isPlaying = false;
-      alert("Oyun bitti! Skor: " + score);
+      requestAnimationFrame(draw);
     }
 
-    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-    document.getElementById("score").textContent = score;
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-</script>
-
+    bgImage.onload = () => {
+      draw();
+    };
+  </script>
 </body>
 </html>
-<section>
-<!-- OYUN ALANI (sayfa 2) -->
-<section id="flappySection" style="height: 100vh; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
-  <h2 style="color: white; font-family: 'Abril Fatface', cursive; font-size: 2.5rem; margin-bottom: 20px;">🎂 Flappy BCAT 🎮</h2>
-
-  <canvas id="flappyCanvas" width="660" height="480" style="border: 3px solid white; border-radius: 10px; max-width: 90vw;"></canvas>
-
-  <div id="scoreDisplay" style="margin-top: 20px; color: white; font-size: 1.5rem; font-family: monospace;">
-    Score: <span id="score">0</span>
-  </div>
-</section>
-
-<script>
-  const canvas = document.getElementById("flappyCanvas");
-  const ctx = canvas.getContext("2d");
-
-  const bgImage = new Image();
-  bgImage.src = "u1ZpVC.png";
-
-  const nyanImg = new Image();
-  nyanImg.src = "nyan-cat.gif";
-
-  let bgX = 0;
-  const scrollSpeed = 2;
-
-  let score = 0;
-  let isPlaying = true;
-
-  const nyan = {
-    x: 50,
-    y: 150,
-    width: 50,
-    height: 40,
-    velocity: 0,
-    gravity: 0.6,
-    jumpStrength: -10
-  };
-
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
-  });
-
-  canvas.addEventListener("click", () => {
-    nyan.velocity = nyan.jumpStrength;
-  });
-
-  function draw() {
-    if (!isPlaying) return;
-
-    // Arka plan kaydırma
-    bgX -= scrollSpeed;
-    if (bgX <= -canvas.width) bgX = 0;
-
-    ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
-    ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
-
-    // Karakter fiziği
-    nyan.velocity += nyan.gravity;
-    nyan.y += nyan.velocity;
-
-    if (nyan.y + nyan.height >= canvas.height) {
-      isPlaying = false;
-      alert("Oyun bitti! Skor: " + score);
-    }
-
-    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-    document.getElementById("score").textContent = score;
-
-    requestAnimationFrame(draw);
-  }
-
-  bgImage.onload = () => {
-    draw();
-  };
-</script>
