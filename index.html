@@ -142,6 +142,10 @@
     <h2 style="color: white; font-size: 2.5rem; margin-bottom: 20px;">🎂 Flappy BCAT 🎮</h2>
 
     <canvas id="flappyCanvas" width="660" height="480" style="border: 3px solid white; border-radius: 10px; max-width: 90vw;"></canvas>
+<div id="buttonArea" style="margin-top: 20px;">
+  <button id="startBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #ff9a9e; color: white; cursor: pointer;">Start</button>
+  <button id="restartBtn" style="padding: 10px 20px; font-size: 1rem; font-family: 'Abril Fatface', cursive; border: none; border-radius: 8px; background-color: #c2e9fb; color: black; cursor: pointer; display: none;">Restart</button>
+</div>
 
     <div style="margin-top: 20px; color: white; font-size: 1.5rem;">
       Score: <span id="score">0</span>
@@ -233,6 +237,55 @@
 
     bgImage.onload = () => draw();
   </script>
+let gameStarted = false;
+
+function startGame() {
+  gameStarted = true;
+  isPlaying = true;
+  score = 0;
+  nyan.y = 150;
+  nyan.velocity = 0;
+  bgX = 0;
+
+  document.getElementById("startBtn").style.display = "none";
+  document.getElementById("restartBtn").style.display = "none";
+
+  draw(); // oyunu başlat
+}
+
+function restartGame() {
+  gameStarted = false;
+  startGame();
+}
+
+document.getElementById("startBtn").addEventListener("click", startGame);
+document.getElementById("restartBtn").addEventListener("click", restartGame);
+
+function draw() {
+  if (!isPlaying) return;
+
+  // Arka plan kaydırma
+  bgX -= scrollSpeed;
+  if (bgX <= -canvas.width) bgX = 0;
+
+  ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
+  ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+
+  // Karakter fiziği
+  nyan.velocity += nyan.gravity;
+  nyan.y += nyan.velocity;
+
+  if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
+    isPlaying = false;
+    document.getElementById("restartBtn").style.display = "inline-block";
+    return;
+  }
+
+  ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+  document.getElementById("score").textContent = score;
+
+  requestAnimationFrame(draw);
+}
 
 </body>
 </html>
