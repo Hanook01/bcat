@@ -211,51 +211,34 @@
 </html>
 <section>
   <!-- OYUN ALANI (sayfa 2) -->
-<section id="flappySection" style="height: 100vh; background: linear-gradient; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
+<section id="flappySection" style="height: 100vh; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
   <h2 style="color: white; font-family: 'Abril Fatface', cursive; font-size: 2.5rem; margin-bottom: 20px;">🎂 Flappy BCAT 🎮</h2>
 
-  <canvas id="flappyCanvas" width="660" height="480" style="border: 3px solid white; border-radius: 10px; background: u1ZpVC.png; max-width: 90vw;"></canvas>
-
+  <canvas id="flappyCanvas" width="660" height="480" style="border: 3px solid white; border-radius: 10px; max-width: 90vw;"></canvas>
 
   <div id="scoreDisplay" style="margin-top: 20px; color: white; font-size: 1.5rem; font-family: monospace;">
     Score: <span id="score">0</span>
   </div>
 </section>
-<script>
-  <script>
-  const canvas = document.getElementById("flappyCanvas");
-  const ctx = canvas.getContext("2d");
 
-  let score = 0;
-  let isPlaying = true;
-
-  function draw() {
-    if (!isPlaying) return;
-
-    // Temel Arka Plan (ileride değişecek)
-    ctx.fillStyle = "#c2e9fb";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Skoru güncelle
-    document.getElementById("score").textContent = score;
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-</script>
 <script>
   const canvas = document.getElementById("flappyCanvas");
   const ctx = canvas.getContext("2d");
+
+  // Arka plan resmi
+  const bgImage = new Image();
+  bgImage.src = "u1ZpVC.png"; // senin görsel
 
   const nyanImg = new Image();
-  nyanImg.src = "nyan-cat.gif"; // senin dosya adın neyse o olsun
+  nyanImg.src = "nyan-cat.gif";
 
   let score = 0;
   let isPlaying = true;
 
-  // Karakterin başlangıç konumu
-  let nyan = {
+  let bgX = 0;
+  const scrollSpeed = 1.5;
+
+  const nyan = {
     x: 50,
     y: 150,
     width: 50,
@@ -265,7 +248,7 @@
     jumpStrength: -10
   };
 
-  // Kontrol: Space + Touch
+  // Kontroller
   document.addEventListener("keydown", (e) => {
     if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
   });
@@ -277,24 +260,22 @@
   function draw() {
     if (!isPlaying) return;
 
-    // Arka plan
-    ctx.fillStyle = "#c2e9fb";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Scroll arka plan çizimi
+    bgX -= scrollSpeed;
+    if (bgX <= -canvas.width) bgX = 0;
+    ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
+    ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
 
-    // Karakter fiziği
+    // Nyan Cat fizik
     nyan.velocity += nyan.gravity;
     nyan.y += nyan.velocity;
 
-    // Yere çarpma kontrolü
     if (nyan.y + nyan.height >= canvas.height) {
       isPlaying = false;
       alert("Oyun bitti! Skor: " + score);
     }
 
-    // Nyan Cat çiz
     ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-
-    // Skoru göster
     document.getElementById("score").textContent = score;
 
     requestAnimationFrame(draw);
