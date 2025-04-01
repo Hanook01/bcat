@@ -237,55 +237,90 @@
 
     bgImage.onload = () => draw();
   </script>
-let gameStarted = false;
+<!-- Start/Restart Butonları -->
+<div id="buttonArea" style="margin-top: 20px;">
+  <button id="startBtn">Start</button>
+  <button id="restartBtn" style="display:none;">Restart</button>
+</div>
 
-function startGame() {
-  gameStarted = true;
-  isPlaying = true;
-  score = 0;
-  nyan.y = 150;
-  nyan.velocity = 0;
-  bgX = 0;
+<!-- Oyunun JavaScript'i -->
+<script>
+  const canvas = document.getElementById("flappyCanvas");
+  const ctx = canvas.getContext("2d");
 
-  document.getElementById("startBtn").style.display = "none";
-  document.getElementById("restartBtn").style.display = "none";
+  const bgImage = new Image();
+  bgImage.src = "u1ZpVC.png";
 
-  draw(); // oyunu başlat
-}
+  const nyanImg = new Image();
+  nyanImg.src = "nyan-cat.gif";
 
-function restartGame() {
-  gameStarted = false;
-  startGame();
-}
+  let bgX = 0;
+  const scrollSpeed = 2;
 
-document.getElementById("startBtn").addEventListener("click", startGame);
-document.getElementById("restartBtn").addEventListener("click", restartGame);
+  let score = 0;
+  let isPlaying = false;
+  let gameStarted = false;
 
-function draw() {
-  if (!isPlaying) return;
+  const nyan = {
+    x: 50,
+    y: 150,
+    width: 50,
+    height: 40,
+    velocity: 0,
+    gravity: 0.6,
+    jumpStrength: -10
+  };
 
-  // Arka plan kaydırma
-  bgX -= scrollSpeed;
-  if (bgX <= -canvas.width) bgX = 0;
+  document.getElementById("startBtn").addEventListener("click", startGame);
+  document.getElementById("restartBtn").addEventListener("click", restartGame);
 
-  ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
-  ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+  function startGame() {
+    gameStarted = true;
+    isPlaying = true;
+    score = 0;
+    nyan.y = 150;
+    nyan.velocity = 0;
+    bgX = 0;
 
-  // Karakter fiziği
-  nyan.velocity += nyan.gravity;
-  nyan.y += nyan.velocity;
+    document.getElementById("startBtn").style.display = "none";
+    document.getElementById("restartBtn").style.display = "none";
 
-  if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
-    isPlaying = false;
-    document.getElementById("restartBtn").style.display = "inline-block";
-    return;
+    draw();
   }
 
-  ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-  document.getElementById("score").textContent = score;
+  function restartGame() {
+    startGame();
+  }
 
-  requestAnimationFrame(draw);
-}
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
+  });
 
-</body>
-</html>
+  canvas.addEventListener("click", () => {
+    nyan.velocity = nyan.jumpStrength;
+  });
+
+  function draw() {
+    if (!isPlaying) return;
+
+    bgX -= scrollSpeed;
+    if (bgX <= -canvas.width) bgX = 0;
+
+    ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
+    ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+
+    nyan.velocity += nyan.gravity;
+    nyan.y += nyan.velocity;
+
+    if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
+      isPlaying = false;
+      document.getElementById("restartBtn").style.display = "inline-block";
+      return;
+    }
+
+    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+    document.getElementById("score").textContent = score;
+
+    requestAnimationFrame(draw);
+  }
+</script>
