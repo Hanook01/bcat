@@ -50,7 +50,7 @@
     }
 
     #iconBar {
-      position: fixed;
+      position: absolute;
       top: 20px;
       right: 30px;
       display: flex;
@@ -59,8 +59,8 @@
     }
 
     #iconBar a img {
-      width: 42px;
-      height: 42px;
+      width: 52px;
+      height: 52px;
       transition: transform 0.3s ease, filter 0.3s ease;
     }
 
@@ -168,10 +168,10 @@
     const nyan = {
       x: 50,
       y: 150,
-      width: 50,
-      height: 40,
+      width: 90,
+      height: 100,
       velocity: 0,
-      gravity: 0.6,
+      gravity: 10,
       jumpStrength: -10
     };
 
