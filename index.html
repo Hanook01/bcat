@@ -226,7 +226,7 @@
   const ctx = canvas.getContext("2d");
 
   const bgImage = new Image();
-  bgImage.src = "u1ZpVC.png"; // Bu dosya index.html ile aynı klasörde olmalı
+  bgImage.src = "u1ZpVC.png";
 
   const nyanImg = new Image();
   nyanImg.src = "nyan-cat.gif";
@@ -256,31 +256,31 @@
   });
 
   function draw() {
-  if (!isPlaying) return;
+    if (!isPlaying) return;
 
-  // Arka plan resmi yüklendiyse çiz
-  if (bgImage.complete) {
+    // Arka plan kaydırma
     bgX -= scrollSpeed;
     if (bgX <= -canvas.width) bgX = 0;
+
     ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+
+    // Karakter fiziği
+    nyan.velocity += nyan.gravity;
+    nyan.y += nyan.velocity;
+
+    if (nyan.y + nyan.height >= canvas.height) {
+      isPlaying = false;
+      alert("Oyun bitti! Skor: " + score);
+    }
+
+    ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+    document.getElementById("score").textContent = score;
+
+    requestAnimationFrame(draw);
   }
 
-  // Karakter fiziği
-  nyan.velocity += nyan.gravity;
-  nyan.y += nyan.velocity;
-
-  if (nyan.y + nyan.height >= canvas.height) {
-    isPlaying = false;
-    alert("Oyun bitti! Skor: " + score);
-  }
-
-  ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
-  document.getElementById("score").textContent = score;
-
-  requestAnimationFrame(draw);
-}
-
-  
-  draw();
+  bgImage.onload = () => {
+    draw();
+  };
 </script>
