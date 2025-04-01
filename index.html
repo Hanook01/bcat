@@ -580,3 +580,136 @@ window.onload = function () {
   });
 }
 </script>
+<script>
+const canvas = document.getElementById("flappyCanvas");
+const ctx = canvas.getContext("2d");
+
+const bgImage = new Image();
+bgImage.src = "u1ZpVC.png"; // Arka plan
+
+const nyanImg = new Image();
+nyanImg.src = "nyan-cat.gif"; // Karakter
+
+// Boru görselleri
+const pipeImagesTop = ["pipe1.png", "pipe2.png"];
+const pipeImagesBottom = ["pipe3.png", "pipe4.png"];
+
+let pipes = [];
+
+let bgX = 0;
+const scrollSpeed = 2;
+
+let score = 0;
+let isPlaying = false;
+
+const nyan = {
+  x: 50,
+  y: 150,
+  width: 50,
+  height: 40,
+  velocity: 0,
+  gravity: 0.6,
+  jumpStrength: -10
+};
+
+// Oyun başlat
+function startGame() {
+  score = 0;
+  nyan.y = 150;
+  nyan.velocity = 0;
+  pipes = [];
+  isPlaying = true;
+  generatePipe();
+  draw();
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space") nyan.velocity = nyan.jumpStrength;
+});
+
+canvas.addEventListener("click", () => {
+  nyan.velocity = nyan.jumpStrength;
+});
+
+// Rastgele boru oluştur
+function generatePipe() {
+  const gap = 130;
+  const minHeight = 60;
+  const maxHeight = canvas.height - gap - 60;
+  const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+
+  const topPipeImg = new Image();
+  topPipeImg.src = pipeImagesTop[Math.floor(Math.random() * pipeImagesTop.length)];
+
+  const bottomPipeImg = new Image();
+  bottomPipeImg.src = pipeImagesBottom[Math.floor(Math.random() * pipeImagesBottom.length)];
+
+  pipes.push({
+    x: canvas.width,
+    topHeight,
+    bottomY: topHeight + gap,
+    width: 60,
+    topImg: topPipeImg,
+    bottomImg: bottomPipeImg
+  });
+
+  setTimeout(generatePipe, 1800);
+}
+
+// Oyun döngüsü
+function draw() {
+  if (!isPlaying) return;
+
+  bgX -= scrollSpeed;
+  if (bgX <= -canvas.width) bgX = 0;
+
+  ctx.drawImage(bgImage, bgX, 0, canvas.width, canvas.height);
+  ctx.drawImage(bgImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+
+  // Engeller
+  pipes.forEach((pipe, index) => {
+    pipe.x -= scrollSpeed;
+
+    // Boruların çizimi
+    ctx.drawImage(pipe.topImg, pipe.x, 0, pipe.width, pipe.topHeight);
+    ctx.drawImage(pipe.bottomImg, pipe.x, pipe.bottomY, pipe.width, canvas.height - pipe.bottomY);
+
+    // Çarpma kontrolü
+    if (
+      nyan.x < pipe.x + pipe.width &&
+      nyan.x + nyan.width > pipe.x &&
+      (
+        nyan.y < pipe.topHeight ||
+        nyan.y + nyan.height > pipe.bottomY
+      )
+    ) {
+      isPlaying = false;
+      alert("💥 Çarptın! Skor: " + score);
+    }
+
+    // Skor
+    if (pipe.x + pipe.width === nyan.x) {
+      score++;
+    }
+  });
+
+  // Karakter fiziği
+  nyan.velocity += nyan.gravity;
+  nyan.y += nyan.velocity;
+
+  if (nyan.y + nyan.height >= canvas.height || nyan.y <= 0) {
+    isPlaying = false;
+    alert("💥 Oyun Bitti! Skor: " + score);
+  }
+
+  ctx.drawImage(nyanImg, nyan.x, nyan.y, nyan.width, nyan.height);
+  document.getElementById("score").textContent = score;
+
+  requestAnimationFrame(draw);
+}
+
+// START butonu çağırır
+window.onload = () => {
+  startGame(); // Otomatik başlatma
+};
+</script>
