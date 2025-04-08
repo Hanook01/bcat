@@ -1,59 +1,249 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BirthdayCat</title>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Coin - Meme Galerisi</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 2rem 0;
+            color: #f8d030; /* Altın sarısı renk, coin rengini anımsatır */
+            text-shadow: 0 0 10px rgba(248, 208, 48, 0.5);
+        }
+
+        .meme-gallery-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .meme-item {
+            position: absolute;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .meme-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .meme-item:hover {
+            transform: scale(1.05);
+            z-index: 100;
+            box-shadow: 0 8px 25px rgba(248, 208, 48, 0.6);
+        }
+
+        .meme-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Modal Stil - Tıklandığında büyük görüntüleme için */
+        .meme-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Animasyon */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
 </head>
+<body>
+    <h2 class="section-title">Meme Galerisi</h2>
+    
+    <div class="meme-gallery-container" id="memeGallery">
+        <!-- Memeler JavaScript ile dinamik olarak eklenecek -->
+    </div>
 
-<body style="margin:0; overflow:hidden; background:black; font-family: 'Abril Fatface', cursive;">
+    <!-- Modal -->
+    <div class="meme-modal" id="memeModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImg" src="" alt="Büyütülmüş Meme">
+        </div>
+    </div>
 
-  <!-- Yıldızlı arka plan canvas -->
-  <canvas id="stars" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
+    <script>
+        // Örnek meme görselleri - Kendi görsellerinizle değiştirebilirsiniz
+        const memeImages = [
+            'https://placehold.co/400x300/f8d030/ffffff?text=Meme+1',
+            'https://placehold.co/350x350/f8d030/ffffff?text=Meme+2',
+            'https://placehold.co/450x300/f8d030/ffffff?text=Meme+3',
+            'https://placehold.co/380x280/f8d030/ffffff?text=Meme+4',
+            'https://placehold.co/320x400/f8d030/ffffff?text=Meme+5',
+            'https://placehold.co/400x400/f8d030/ffffff?text=Meme+6',
+            'https://placehold.co/450x250/f8d030/ffffff?text=Meme+7',
+            'https://placehold.co/350x320/f8d030/ffffff?text=Meme+8',
+            'https://placehold.co/420x350/f8d030/ffffff?text=Meme+9',
+            'https://placehold.co/380x380/f8d030/ffffff?text=Meme+10',
+            'https://placehold.co/410x300/f8d030/ffffff?text=Meme+11',
+            'https://placehold.co/360x400/f8d030/ffffff?text=Meme+12',
 
-  <!-- Giriş bölümü -->
-  <div style="position: relative; z-index: 1; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-    <h1 style="font-size: 4rem; color: #fff; text-shadow: 2px 2px 10px #ff9a9e;"></h1>
-    <p style="font-size: 1.5rem; color: #ccc; max-width: 600px; margin: 20px;"></p>
-     
-  </div>
+Umut, [8.04.2025 21:16]
+// Daha fazla meme ekleyebilirsiniz
+        ];
 
-  <!-- JavaScript: yıldız çizimi -->
-  <script>
-    const canvas = document.getElementById('stars');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+        // Galeri container'ı
+        const galleryContainer = document.getElementById('memeGallery');
+        const modal = document.getElementById('memeModal');
+        const modalImg = document.getElementById('modalImg');
+        let lastScrollTop = 0;
+        let visibleMemes = 0;
+        const maxVisibleMemes = memeImages.length;
 
-    const stars = [];
-    for (let i = 0; i < 200; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.5,
-      });
-    }
+        // Sayfanın yüklenmesi tamamlandığında
+        window.addEventListener('DOMContentLoaded', () => {
+            // İlk başta birkaç meme yükle
+            loadInitialMemes();
+            
+            // Scroll olayını dinle
+            window.addEventListener('scroll', handleScroll);
+        });
 
-    function drawStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'white';
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      requestAnimationFrame(drawStars);
-    }
+        // İlk başta gösterilecek memeler
+        function loadInitialMemes() {
+            // İlk 4 meme'i yükle
+            for (let i = 0; i < 4 && i < memeImages.length; i++) {
+                createMemeElement(memeImages[i], i);
+                visibleMemes++;
+            }
+        }
 
-    drawStars();
-  </script>
+        // Scroll işlemi
+        function handleScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            
+            // Sayfa sonuna yaklaşıldığında veya aşağı scroll yapıldığında
+            if ((scrollTop + windowHeight > docHeight - 300) || (scrollTop > lastScrollTop)) {
+                if (visibleMemes < maxVisibleMemes) {
+                    createMemeElement(memeImages[visibleMemes], visibleMemes);
+                    visibleMemes++;
+                }
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }
 
-  <!-- Eski içeriklerin geleceği yer -->
-  <section id="mainContent" style="padding: 40px; color: white;">
-    <h2 style="font-size: 2rem;"></h2>
-    <p>Burası senin diğer içerikleri koyacağın bölüm. Video, gif, meme galeri ne istersen buraya ekleriz.</p>
-  </section>
+        // Meme elemanı oluşturma
+        function createMemeElement(src, index) {
+            const memeItem = document.createElement('div');
+            memeItem.className = 'meme-item';
+            
+            // Rastgele boyut (responsive tasarım için)
+            const width = Math.floor(Math.random() * (300 - 180) + 180); // 180px - 300px arası
+            const height = Math.floor(Math.random() * (300 - 180) + 180); // 180px - 300px arası
+            
+            // Rastgele konum (masaüstü için)
+            const maxLeft = window.innerWidth - width - 40; // Container padding'i hesaba katılır
+            const left = Math.floor(Math.random() * maxLeft);
+            
+            // Aşağıya doğru pozisyon (hafif üst üste binme efekti için)
+            const top = 100 + (index * 100) + Math.floor(Math.random() * 50);
+            
+            // Biraz döndürme efekti (memeler düz olmayacak şekilde)
+            const rotation = Math.floor(Math.random() * 10 - 5); // -5 ile +5 derece arası
+            
+            memeItem.style.width = ${width}px;
+            memeItem.style.height = ${height}px;
+            memeItem.style.left = ${left}px;
+            memeItem.style.top = ${top}px;
+            memeItem.style.transform = rotate(${rotation}deg) scale(0.8);
+            
+            // Görsel
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = Meme ${index + 1};
+            
+            // Tıklama olayı
+            memeItem.addEventListener('click', () => {
+                openModal(src);
+            });
+            
+            memeItem.appendChild(img);
+            galleryContainer.appendChild(memeItem);
+            
+            // Animasyon ile göster (setTimeout ile sırayla)
+            setTimeout(() => {
+                memeItem.style.opacity = '1';
+                memeItem.style.transform = rotate(${rotation}deg) scale(1);
+            }, index * 100);
+        }
 
+        // Modal açma
+        function openModal(src) {
+            modalImg.src = src;
+            modal.style.display = 'flex';
+        }
+
+        // Modal kapatma
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Modal dışına tıklanınca da kapansın
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+
+Umut, [8.04.2025 21:16]
+}
+        }
+    </script>
 </body>
 </html>
